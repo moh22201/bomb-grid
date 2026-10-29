@@ -99,3 +99,16 @@ html.telegram-webapp .topbar{padding-top:4px}
 #profit-balance{font-size:20px;letter-spacing:-.4px}
 #profit-balance small{font:500 10px 'DM Mono',monospace;color:#9fffe0}
 @media(max-width:420px){.wallet-toggle{width:36px;height:36px;padding:7px}.wallet-toggle svg{width:22px;height:22px}}
+
+.top-balance{display:flex;flex-direction:column;gap:3px;min-width:84px;padding:7px 10px;border:1px solid #34445f;border-radius:8px;background:#151f32}
+.top-balance span{font:500 8px 'DM Mono',monospace;letter-spacing:.8px;color:#9aa9c3}
+.top-balance strong{font:700 11px 'DM Mono',monospace;color:#9fffe0;white-space:nowrap}
+.withdraw-top-balance strong{color:#ffd27a}
+.finance-panel{position:fixed!important;z-index:100;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px;border:1px solid #526584;border-radius:18px;background:linear-gradient(145deg,#151f34,#090f1d);box-shadow:0 25px 100px #000c}
+.finance-panel[hidden]{display:none!important}
+.finance-card{min-width:0;padding:16px;border:1px solid #2c3a56;border-radius:12px;background:#111a2b}
+.finance-card input{width:100%;margin:0 0 13px;padding:12px;border:1px solid #34445f;border-radius:8px;background:#0b1322;color:#f4f7ff}
+.deposit-address{overflow-wrap:anywhere;padding:13px;border:1px dashed #5e8b8a;border-radius:9px;background:#0b1c29;color:#a6ffe5;font:500 12px 'DM Mono',monospace;user-select:all}
+.wallet-note{font-size:11px;line-height:1.7;color:#a6b5cc}
+#finance-panel:before{content:"WALLET";grid-column:1/-1;color:#9fffe0;font:700 12px 'DM Mono',monospace;letter-spacing:2px}
+@media(max-width:560px){.top-actions{gap:6px}.top-balance{min-width:65px;padding:6px}.top-balance span{font-size:7px}.top-balance strong{font-size:9px}.finance-panel{grid-template-columns:1fr;padding:12px;gap:10px}.finance-card{padding:12px}}
