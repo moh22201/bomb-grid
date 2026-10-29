@@ -57,3 +57,9 @@ select{background:#151f33;border-color:#35435f}
 .footer{color:#7d8aa3}.footer-version{color:#a1afc7}
 .toast{box-shadow:0 14px 40px #0008}
 @media(max-width:850px){.game-panel,.control-panel{box-shadow:0 12px 35px #0003}.tile:hover:not(:disabled){transform:translateY(-1px)}}
+
+
+/* Telegram Mini App safe areas */
+html.telegram-webapp body{min-height:100dvh;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+html.telegram-webapp .app-shell{padding-top:max(14px,env(safe-area-inset-top));padding-bottom:max(16px,env(safe-area-inset-bottom))}
+html.telegram-webapp .topbar{padding-top:4px}
