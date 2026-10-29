@@ -48,7 +48,54 @@ function renderGrid(revealed={},bombCells=[]){const grid=$("game-grid");grid.inn
 async function startRound(){if(round?.status==="active"){showToast(t("alreadyPlaying"),true);return;}const bet=Number($("bet-amount").value),bombs=Number($("bomb-count").value);if(!Number.isFinite(bet)||bet<1){showToast(t("needBet"),true);return;}try{$("start-button").disabled=true;const {data,error}=await supabase.rpc("bomb_grid_start_round",{p_bet:bet,p_bomb_count:bombs});if(error)throw error;round={...data,bet_amount:Number(data.bet_amount),safe_picks:0,revealed:{}};playBalance=Number(data.play_balance);profitBalance=Number(data.profit_balance);updateBalance();setStatus("playing");renderGrid();updateRoundStats();showToast(t("roundStarted"));}catch(err){showToast(err.message||t("notEnough"),true);}finally{$("start-button").disabled=false;updateRoundStats();}}
 async function pickTile(i){if(!round||round.status!=="active")return;try{const {data,error}=await supabase.rpc("bomb_grid_pick",{p_round_id:round.round_id||round.id,p_cell:i});if(error)throw error;if(data.status==="lost"){round.status="lost";round.safe_picks=Number(data.safe_picks||0);const reveal={};(data.bomb_cells||[]).forEach(x=>reveal[x]="bomb");renderGrid(reveal,data.bomb_cells||[]);setStatus("lost");showToast(t("bombMessage"),true);}else{round.safe_picks=Number(data.safe_picks);round.revealed=round.revealed||{};round.revealed[i]="gem";if(data.status==="cashed_out"){round.status="cashed_out";setStatus("won");await refreshBalances();showToast(t("cashMessage"));}else showToast(t("gemMessage"));renderGrid(round.revealed); }updateRoundStats();if(round.status!=="active")await refreshBalances();}catch(err){showToast(err.message||"Pick failed",true);}}
 async function cashOut(){if(!round||round.status!=="active")return;try{const {data,error}=await supabase.rpc("bomb_grid_cash_out",{p_round_id:round.round_id||round.id});if(error)throw error;round.status="cashed_out";setStatus("won");await refreshBalances();renderGrid(round.revealed||{});updateRoundStats();showToast(t("cashMessage"));}catch(err){showToast(err.message||"Cash out failed",true);}}
-async function renderSession(){session=(await supabase.auth.getSession()).data.session;const layout=$("game-layout");const footer=document.querySelector(".footer");if(session){$("auth-panel")?.remove();layout.hidden=false;renderGrid();footer.hidden=false;addFinancePanel();const {data,error}=await supabase.rpc("get_game_config");if(error)throw error;config=data;$("deposit-address").textContent=config.deposit_wallet;await refreshBalances(); }else{layout.hidden=true;footer.hidden=true;$("finance-panel")?.remove();authPanel();}}
+
+function setupAdminDashboard(){
+ if(!session || session.user?.app_metadata?.role!=="admin") {
+   $("admin-dashboard")?.remove();
+   $("admin-open-button")?.remove();
+   return;
+ }
+ let open=$("admin-open-button");
+ if(!open){
+   open=document.createElement("button"); open.id="admin-open-button"; open.type="button"; open.className="admin-open-button"; open.textContent="ADMIN";
+   $("language").before(open);
+   open.addEventListener("click",async()=>{const panel=$("admin-dashboard");panel.hidden=false;await loadAdminDashboard();});
+ }
+ let panel=$("admin-dashboard");
+ if(!panel){
+   panel=document.createElement("section"); panel.id="admin-dashboard"; panel.className="admin-dashboard"; panel.hidden=true;
+   panel.innerHTML=`<div class="admin-head"><div><p class="eyebrow">BOMB GRID • ADMIN</p><h2>Admin dashboard</h2></div><div class="admin-head-actions"><button id="admin-refresh" class="cashout-button" type="button">Refresh</button><button id="admin-close" class="cashout-button" type="button">Close</button></div></div><p id="admin-message" class="admin-message">Loading live database statistics…</p><div id="admin-stats" class="admin-stats"></div><h3>Pending withdrawals · manual payout</h3><div id="admin-withdrawals" class="admin-withdrawals"></div><p class="admin-note">Amounts are from Supabase. Payouts are still sent manually; this dashboard does not transfer funds or change request statuses.</p>`;
+   document.body.append(panel);
+   $("admin-close").addEventListener("click",()=>panel.hidden=true);
+   $("admin-refresh").addEventListener("click",loadAdminDashboard);
+ }
+}
+async function loadAdminDashboard(){
+ const msg=$("admin-message"),stats=$("admin-stats"),list=$("admin-withdrawals");
+ if(!msg||!stats||!list)return;
+ msg.textContent="Loading live database statistics…";stats.innerHTML="";list.innerHTML="";
+ try{
+   const {data,error}=await supabase.rpc("admin_dashboard_data");
+   if(error)throw error;
+   const d=data||{};
+   const cards=[
+     ["Registered players",d.registered_users||0,"accounts"],
+     ["Verified deposits",d.deposit_count||0,Number(d.deposit_total||0).toFixed(2)+" USDT total"],
+     ["Withdrawals approved / paid",d.withdrawal_count||0,Number(d.withdrawal_total||0).toFixed(2)+" USDT requested"],
+     ["Pending withdrawals",d.pending_count||0,Number(d.pending_total||0).toFixed(2)+" USDT reserved"]
+   ];
+   stats.innerHTML=cards.map(([title,value,detail])=>`<article class="admin-stat"><span>${title}</span><strong>${value}</strong><small>${detail}</small></article>`).join("");
+   const requests=Array.isArray(d.pending_withdrawals)?d.pending_withdrawals:[];
+   if(!requests.length)list.innerHTML='<p class="admin-empty">No pending withdrawal requests.</p>';
+   else list.innerHTML=requests.map(w=>`<article class="admin-withdrawal"><div class="admin-withdrawal-top"><strong>${escapeAdminText(w.username||"Player")}</strong><span>${Number(w.amount_usdt||0).toFixed(2)} USDT requested</span></div><p>Fee: ${Number(w.fee_usdt||0).toFixed(2)} USDT · Payout: <strong>${Number(w.payout_usdt||0).toFixed(2)} USDT</strong></p><p>Network: ${escapeAdminText(w.network||"BEP20")}</p><code>${escapeAdminText(w.wallet_address||"No wallet address")}</code><small>${w.created_at?new Date(w.created_at).toLocaleString():""}</small></article>`).join("");
+   msg.textContent="Live data loaded successfully.";
+ }catch(err){msg.textContent="Could not load dashboard: "+(err.message||"Unknown error")+". If you just received admin access, sign out and sign back in once.";msg.classList.add("admin-error");}
+}
+function escapeAdminText(value){
+ return String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+
+async function renderSession(){session=(await supabase.auth.getSession()).data.session;setupAdminDashboard();const layout=$("game-layout");const footer=document.querySelector(".footer");if(session){$("auth-panel")?.remove();layout.hidden=false;renderGrid();footer.hidden=false;addFinancePanel();const {data,error}=await supabase.rpc("get_game_config");if(error)throw error;config=data;$("deposit-address").textContent=config.deposit_wallet;await refreshBalances(); }else{layout.hidden=true;footer.hidden=true;$("finance-panel")?.remove();$("admin-dashboard")?.remove();$("admin-open-button")?.remove();authPanel();}}
 function renderLanguage(){document.documentElement.lang=language;document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(t(k))el.textContent=t(k);});$("language").value=language;updateRisk();if(session)updateBalance();if(round)updateRoundStats();}
 $("wallet-toggle").addEventListener("click",()=>{if(!session){showToast("Sign in to open your wallet.",true);return;}addFinancePanel();const panel=$("finance-panel");if(panel)panel.hidden=!panel.hidden;});
 $("language").addEventListener("change",e=>{language=e.target.value;localStorage.setItem("bomb-grid-language",language);renderLanguage();});
