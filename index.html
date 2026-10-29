@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#090d18">
   <meta name="telegram-web-app" content="true">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <meta name="description" content="BOMB GRID — a fast 5×5 mines strategy game.">
+  <meta name="description" content="BOMB GRID — a 5×5 mines strategy game.">
   <title>BOMB GRID</title>
   <link rel="stylesheet" href="./src/styles.css">
 </head>
@@ -17,7 +17,7 @@
         <span class="brand-mark">✳</span><span>BOMB<span class="brand-accent">GRID</span></span>
       </a>
       <div class="top-actions">
-        <span class="demo-tag" data-i18n="demo">DEMO MODE</span>
+        <span class="demo-tag" data-i18n="demo">LIVE ACCOUNT</span>
         <label class="language-label" for="language" data-i18n="language">Language</label>
         <select id="language" aria-label="Language">
           <option value="en">EN</option>
@@ -26,7 +26,7 @@
       </div>
     </header>
 
-    <section class="game-layout">
+    <section id="game-layout" class="game-layout" hidden>
       <section class="game-panel">
         <div class="panel-heading">
           <div>
@@ -36,7 +36,6 @@
           </div>
           <div class="status-pill"><span class="status-dot"></span><span data-i18n="ready">READY TO PLAY</span></div>
         </div>
-
         <div class="board-wrap">
           <div class="board-topline"><span data-i18n="gridLabel">5 × 5 GRID</span><span id="round-status" aria-live="polite" data-i18n="newRound">New round</span></div>
           <div id="game-grid" class="game-grid" role="grid" aria-label="5 by 5 game grid"></div>
@@ -50,33 +49,28 @@
       <aside class="control-panel">
         <div class="balance-card">
           <div class="balance-icon">◈</div>
-          <div><p data-i18n="demoBalance">DEMO BALANCE</p><strong id="balance">1,000.00 <small>CR</small></strong></div>
-          <button id="reset-balance" class="icon-button" title="Reset demo balance" aria-label="Reset demo balance">↻</button>
+          <div><p data-i18n="demoBalance">PLAY BALANCE</p><strong id="balance">0.00 <small>USDT</small></strong></div>
         </div>
-
         <div class="controls-section">
           <div class="section-title"><span data-i18n="roundSetup">ROUND SETUP</span><span class="section-step">01</span></div>
-          <label class="field-label" for="bet-amount" data-i18n="betAmount">Demo bet amount</label>
-          <div class="amount-input"><input id="bet-amount" type="number" min="1" max="1000" step="1" value="10" inputmode="decimal"><span>CR</span><button class="max-button" id="max-bet" data-i18n="max">MAX</button></div>
-          <div class="quick-bets"><button data-bet="5">5</button><button data-bet="10">10</button><button data-bet="25">25</button><button data-bet="50">50</button></div>
-
+          <label class="field-label" for="bet-amount" data-i18n="betAmount">Bet amount</label>
+          <div class="amount-input"><input id="bet-amount" type="number" min="1" step="0.01" value="1" inputmode="decimal"><span>USDT</span><button class="max-button" id="max-bet" data-i18n="max">MAX</button></div>
+          <div class="quick-bets"><button data-bet="1">1</button><button data-bet="2">2</button><button data-bet="5">5</button><button data-bet="10">10</button></div>
           <div class="field-row"><label class="field-label" for="bomb-count" data-i18n="bombs">Number of bombs</label><strong id="bomb-count-label">5</strong></div>
           <input id="bomb-count" class="range-input" type="range" min="1" max="24" value="5">
           <div class="range-labels"><span>1 <span data-i18n="lowRisk">LOW RISK</span></span><span>24 <span data-i18n="highRisk">HIGH RISK</span></span></div>
           <div class="risk-info"><span class="risk-icon">!</span><span id="risk-copy" data-i18n="riskCopy">5 bombs · balanced risk</span></div>
-
           <button id="start-button" class="primary-button"><span data-i18n="startRound">Start round</span><span>↗</span></button>
-          <button id="cashout-button" class="cashout-button" disabled><span data-i18n="cashOut">Cash out</span><span id="cashout-value">0.00 CR</span></button>
+          <button id="cashout-button" class="cashout-button" disabled><span data-i18n="cashOut">Cash out</span><span id="cashout-value">0.00 USDT</span></button>
         </div>
-
         <div class="round-stats">
           <div><span data-i18n="gemsFound">GEMS FOUND</span><strong id="gems-found">0</strong></div>
           <div><span data-i18n="currentMultiplier">MULTIPLIER</span><strong id="multiplier">1.00×</strong></div>
         </div>
-        <p class="footnote" data-i18n="footnote">Demo credits only. Game progress is stored in this browser for now.</p>
+        <p class="footnote" data-i18n="footnote">Play balance is not withdrawable. Only eligible winnings can be withdrawn.</p>
       </aside>
     </section>
-    <footer class="footer"><span>© BOMB GRID</span><span data-i18n="footerText">Play smart. Know when to stop.</span><span class="footer-version">DEMO v0.1</span></footer>
+    <footer class="footer"><span>© BOMB GRID</span><span data-i18n="footerText">Play smart. Know when to stop.</span><span class="footer-version">v0.2</span></footer>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script type="module" src="./src/main.js"></script>
