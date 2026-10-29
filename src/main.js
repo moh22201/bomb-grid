@@ -1,144 +1,59 @@
-const $ = (id) => document.getElementById(id);
-// Telegram Mini App bootstrap: safe to run in a normal browser too.
-const telegramApp = window.Telegram?.WebApp;
-if (telegramApp) {
-  telegramApp.ready();
-  telegramApp.expand();
-  document.documentElement.classList.add("telegram-webapp");
-  try {
-    telegramApp.setHeaderColor("#090d18");
-    telegramApp.setBackgroundColor("#090d18");
-  } catch {}
-}
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const STORAGE_KEY = "bomb-grid-demo-v1";
+const SUPABASE_URL = "https://nuvurnwfqkwpbkttonpp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_lihcwCW3CIbkRrrxyzvJtw_cepORBoe";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = (id) => document.getElementById(id);
 const SIZE = 25;
+const tg = window.Telegram?.WebApp;
+if (tg) { tg.ready(); tg.expand(); document.documentElement.classList.add("telegram-webapp"); try { tg.setHeaderColor("#090d18"); tg.setBackgroundColor("#090d18"); } catch {} }
+
 const translations = {
-  en: {
-    demo:"DEMO MODE", language:"Language", gameLabel:"MINES • STRATEGY", title:"Find the gems. Avoid the bombs.",
-    subtitle:"Choose your risk, reveal tiles, and cash out before you hit a bomb.", ready:"READY TO PLAY",
-    gridLabel:"5 × 5 GRID", newRound:"New round", gemLegend:"Gem found", bombLegend:"Bomb hit",
-    demoBalance:"DEMO BALANCE", roundSetup:"ROUND SETUP", betAmount:"Demo bet amount", max:"MAX",
-    bombs:"Number of bombs", lowRisk:"LOW RISK", highRisk:"HIGH RISK", riskCopy:"5 bombs · balanced risk",
-    startRound:"Start round", cashOut:"Cash out", gemsFound:"GEMS FOUND", currentMultiplier:"MULTIPLIER",
-    footnote:"Demo credits only. Game progress is stored in this browser for now.", footerText:"Play smart. Know when to stop.",
-    playing:"Round in progress", won:"Round cashed out", lost:"Bomb hit — round over", roundStarted:"Round started. Good luck!",
-    needBet:"Enter a valid bet amount.", notEnough:"Not enough demo credits.", chooseTile:"Choose a tile on the grid.",
-    gemMessage:"Gem found!", bombMessage:"Boom! You hit a bomb.", cashMessage:"Cashed out successfully!",
-    resetMessage:"Demo balance reset to 1,000 credits.", resetConfirm:"Reset demo balance to 1,000 credits?",
-    riskBalanced:"balanced risk", riskHigh:"high risk", riskLow:"lower risk", noGems:"No gems found yet.",
-    alreadyPlaying:"Finish or cash out the current round first."
-  },
-  fr: {
-    demo:"MODE DÉMO", language:"Langue", gameLabel:"MINES • STRATÉGIE", title:"Trouvez les gemmes. Évitez les bombes.",
-    subtitle:"Choisissez votre risque, révélez des cases et encaissez avant une bombe.", ready:"PRÊT À JOUER",
-    gridLabel:"GRILLE 5 × 5", newRound:"Nouvelle manche", gemLegend:"Gemme trouvée", bombLegend:"Bombe touchée",
-    demoBalance:"SOLDE DÉMO", roundSetup:"PARAMÈTRES", betAmount:"Mise de démonstration", max:"MAX",
-    bombs:"Nombre de bombes", lowRisk:"RISQUE FAIBLE", highRisk:"RISQUE ÉLEVÉ", riskCopy:"5 bombes · risque équilibré",
-    startRound:"Démarrer", cashOut:"Encaisser", gemsFound:"GEMMES TROUVÉES", currentMultiplier:"MULTIPLICATEUR",
-    footnote:"Crédits démo uniquement. La progression est stockée dans ce navigateur pour le moment.", footerText:"Jouez avec stratégie. Sachez vous arrêter.",
-    playing:"Manche en cours", won:"Manche encaissée", lost:"Bombe touchée — manche terminée", roundStarted:"Manche lancée. Bonne chance !",
-    needBet:"Saisissez une mise valide.", notEnough:"Crédits démo insuffisants.", chooseTile:"Choisissez une case sur la grille.",
-    gemMessage:"Gemme trouvée !", bombMessage:"Boum ! Vous avez touché une bombe.", cashMessage:"Encaissement réussi !",
-    resetMessage:"Solde démo réinitialisé à 1 000 crédits.", resetConfirm:"Réinitialiser le solde démo à 1 000 crédits ?",
-    riskBalanced:"risque équilibré", riskHigh:"risque élevé", riskLow:"risque plus faible", noGems:"Aucune gemme trouvée.",
-    alreadyPlaying:"Terminez ou encaissez la manche en cours."
-  }
+ en: {demo:"LIVE ACCOUNT",language:"Language",gameLabel:"MINES • STRATEGY",title:"Find the gems. Avoid the bombs.",subtitle:"Choose your risk, reveal tiles, and cash out before you hit a bomb.",ready:"READY TO PLAY",gridLabel:"5 × 5 GRID",newRound:"New round",gemLegend:"Gem found",bombLegend:"Bomb hit",demoBalance:"PLAY BALANCE",roundSetup:"ROUND SETUP",betAmount:"Bet amount",max:"MAX",bombs:"Number of bombs",lowRisk:"LOW RISK",highRisk:"HIGH RISK",riskCopy:"5 bombs · balanced risk",startRound:"Start round",cashOut:"Cash out",gemsFound:"GEMS FOUND",currentMultiplier:"MULTIPLIER",footnote:"Play balance is not withdrawable. Only eligible winnings can be withdrawn.",footerText:"Play smart. Know when to stop.",playing:"Round in progress",won:"Round cashed out",lost:"Bomb hit — round over",roundStarted:"Round started.",needBet:"Enter a valid bet amount.",notEnough:"Insufficient play balance.",chooseTile:"Choose a tile on the grid.",gemMessage:"Gem found!",bombMessage:"Boom! You hit a bomb.",cashMessage:"Cashed out successfully!",riskBalanced:"balanced risk",riskHigh:"high risk",riskLow:"lower risk",noGems:"Reveal a safe tile before cashing out.",alreadyPlaying:"Finish or cash out the current round first.",loginTitle:"Sign in to BOMB GRID",email:"Email",password:"Password",login:"Sign in",signup:"Create account",logout:"Sign out",authHint:"Create an account or sign in to save your progress securely.",authNeed:"Enter your email and password.",signupSent:"Account created. Check your email to confirm, then sign in.",loginOk:"Signed in.",depositTitle:"USDT DEPOSIT • BEP20",depositAmount:"Amount (minimum 1 USDT)",txHash:"Transaction hash",submitDeposit:"Submit deposit request",withdrawTitle:"WITHDRAW PROFITS • BEP20",profitBalance:"Withdrawable profit balance",withdrawAmount:"Amount (minimum 5 USDT)",walletAddress:"Your BEP20 payout address",submitWithdrawal:"Request withdrawal",depositInfo:"Send USDT on BNB Smart Chain (BEP20) to this address, then submit the transaction hash. Credit is added only after manual review.",withdrawInfo:"5% fee. The requested amount is reserved while pending; the payout is 95% after approval.",requestSent:"Request submitted for manual review.",addressCopied:"Deposit address copied.",copy:"Copy",loading:"Loading…",balanceError:"Could not load your balances.",signOutConfirm:"Sign out of BOMB GRID?" },
+ fr: {demo:"COMPTE RÉEL",language:"Langue",gameLabel:"MINES • STRATÉGIE",title:"Trouvez les gemmes. Évitez les bombes.",subtitle:"Choisissez votre risque et encaissez avant une bombe.",ready:"PRÊT À JOUER",gridLabel:"GRILLE 5 × 5",newRound:"Nouvelle manche",gemLegend:"Gemme trouvée",bombLegend:"Bombe touchée",demoBalance:"SOLDE DE JEU",roundSetup:"PARAMÈTRES",betAmount:"Mise",max:"MAX",bombs:"Nombre de bombes",lowRisk:"RISQUE FAIBLE",highRisk:"RISQUE ÉLEVÉ",riskCopy:"5 bombes · risque équilibré",startRound:"Démarrer",cashOut:"Encaisser",gemsFound:"GEMMES TROUVÉES",currentMultiplier:"MULTIPLICATEUR",footnote:"Le solde de jeu n'est pas retirable. Seuls les gains admissibles peuvent être retirés.",footerText:"Jouez avec stratégie.",playing:"Manche en cours",won:"Manche encaissée",lost:"Bombe touchée — manche terminée",roundStarted:"Manche lancée.",needBet:"Saisissez une mise valide.",notEnough:"Solde de jeu insuffisant.",chooseTile:"Choisissez une case.",gemMessage:"Gemme trouvée !",bombMessage:"Boum ! Vous avez touché une bombe.",cashMessage:"Encaissement réussi !",riskBalanced:"risque équilibré",riskHigh:"risque élevé",riskLow:"risque faible",noGems:"Révélez une case sûre avant d'encaisser.",alreadyPlaying:"Terminez la manche en cours.",loginTitle:"Connexion à BOMB GRID",email:"E-mail",password:"Mot de passe",login:"Connexion",signup:"Créer un compte",logout:"Déconnexion",authHint:"Créez un compte ou connectez-vous pour sauvegarder votre progression.",authNeed:"Saisissez votre e-mail et votre mot de passe.",signupSent:"Compte créé. Confirmez votre e-mail puis connectez-vous.",loginOk:"Connexion réussie.",depositTitle:"DÉPÔT USDT • BEP20",depositAmount:"Montant (minimum 1 USDT)",txHash:"Hash de transaction",submitDeposit:"Envoyer la demande",withdrawTitle:"RETRAIT DES GAINS • BEP20",profitBalance:"Solde retirable",withdrawAmount:"Montant (minimum 5 USDT)",walletAddress:"Votre adresse BEP20",submitWithdrawal:"Demander un retrait",depositInfo:"Envoyez les USDT sur BNB Smart Chain (BEP20), puis soumettez le hash. Le crédit est ajouté après vérification manuelle.",withdrawInfo:"Frais de 5 %. Le montant est réservé pendant l'attente; le paiement net est de 95 %.",requestSent:"Demande envoyée pour vérification.",addressCopied:"Adresse copiée.",copy:"Copier",loading:"Chargement…",balanceError:"Impossible de charger les soldes.",signOutConfirm:"Se déconnecter de BOMB GRID ?" }
 };
 let language = localStorage.getItem("bomb-grid-language") || "en";
-let state = loadState();
-let round = null;
-let toastTimer;
-function loadState(){
-  try { const s = JSON.parse(localStorage.getItem(STORAGE_KEY)); if(s && Number.isFinite(s.balance)) return {balance:Math.max(0,s.balance)}; } catch {}
-  return {balance:1000};
+let session = null, round = null, config = null, playBalance = 0, profitBalance = 0, toastTimer;
+
+function t(k){ return translations[language]?.[k] || translations.en[k] || k; }
+function showToast(msg,bad=false){ const el=$("toast"); el.textContent=msg; el.classList.toggle("bad",bad); el.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),3200); }
+function money(n){ return Number(n||0).toLocaleString(language==="fr"?"fr-FR":"en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function setStatus(k){ $("round-status").textContent=t(k); }
+function authPanel(){
+ let el=$("auth-panel");
+ if(!el){ el=document.createElement("section"); el.id="auth-panel"; el.className="game-panel auth-panel"; $("game-layout").before(el); }
+ el.innerHTML = `<div class="auth-card"><p class="eyebrow">BOMB GRID ACCOUNT</p><h2>${t("loginTitle")}</h2><p class="subtitle">${t("authHint")}</p><form id="auth-form"><label class="field-label" for="auth-email">${t("email")}</label><input id="auth-email" type="email" autocomplete="email" required><label class="field-label" for="auth-password">${t("password")}</label><input id="auth-password" type="password" minlength="6" autocomplete="current-password" required><div class="auth-actions"><button class="primary-button" type="submit" id="login-btn">${t("login")}</button><button class="cashout-button" type="button" id="signup-btn">${t("signup")}</button></div></form></div>`;
+ $("auth-form").addEventListener("submit", async e=>{e.preventDefault(); const email=$("auth-email").value.trim(),password=$("auth-password").value; if(!email||!password){showToast(t("authNeed"),true);return;} $("login-btn").disabled=true; try{const {error}=await supabase.auth.signInWithPassword({email,password});if(error)throw error;showToast(t("loginOk"));}catch(err){showToast(err.message||"Sign in failed",true);}finally{$("login-btn").disabled=false;} });
+ $("signup-btn").addEventListener("click",async()=>{const email=$("auth-email").value.trim(),password=$("auth-password").value;if(!email||password.length<6){showToast(t("authNeed"),true);return;} $("signup-btn").disabled=true;try{const {error}=await supabase.auth.signUp({email,password});if(error)throw error;showToast(t("signupSent"));}catch(err){showToast(err.message||"Sign up failed",true);}finally{$("signup-btn").disabled=false;}});
 }
-function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-function t(key){ return translations[language][key] || translations.en[key] || key; }
-function money(n){ return Number(n).toLocaleString(language==="fr"?"fr-FR":"en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function showToast(message,bad=false){
-  const el=$("toast"); el.textContent=message; el.classList.toggle("bad",bad); el.classList.add("show");
-  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),2600);
+function addFinancePanel(){
+ let el=$("finance-panel"); if(el)return;
+ el=document.createElement("section");el.id="finance-panel";el.className="finance-panel";
+ el.innerHTML=`<div class="finance-card"><p class="eyebrow">${t("depositTitle")}</p><p class="subtitle">${t("depositInfo")}</p><div class="deposit-address" id="deposit-address">Loading…</div><button class="cashout-button" id="copy-deposit-address" type="button">${t("copy")}</button><form id="deposit-form"><label class="field-label" for="deposit-amount">${t("depositAmount")}</label><input id="deposit-amount" type="number" min="1" step="0.01" required><label class="field-label" for="deposit-hash">${t("txHash")}</label><input id="deposit-hash" type="text" minlength="20" maxlength="160" required><button class="primary-button" type="submit">${t("submitDeposit")}</button></form></div><div class="finance-card"><p class="eyebrow">${t("withdrawTitle")}</p><p class="subtitle" id="profit-balance-label">${t("profitBalance")}: —</p><p class="subtitle">${t("withdrawInfo")}</p><form id="withdraw-form"><label class="field-label" for="withdraw-amount">${t("withdrawAmount")}</label><input id="withdraw-amount" type="number" min="5" step="0.01" required><label class="field-label" for="withdraw-address">${t("walletAddress")}</label><input id="withdraw-address" type="text" minlength="20" maxlength="128" required><button class="primary-button" type="submit">${t("submitWithdrawal")}</button></form></div>`;
+ $("game-layout").after(el);
+ $("copy-deposit-address").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(config.deposit_wallet);showToast(t("addressCopied"));}catch{showToast(config.deposit_wallet);}});
+ $("deposit-form").addEventListener("submit",async e=>{e.preventDefault();const amount=Number($("deposit-amount").value),tx=$("deposit-hash").value.trim();try{const {error}=await supabase.rpc("submit_deposit_request",{p_amount:amount,p_tx_hash:tx});if(error)throw error;$("deposit-form").reset();showToast(t("requestSent"));}catch(err){showToast(err.message||"Deposit request failed",true);}});
+ $("withdraw-form").addEventListener("submit",async e=>{e.preventDefault();const amount=Number($("withdraw-amount").value),address=$("withdraw-address").value.trim();try{const {error}=await supabase.rpc("request_withdrawal",{p_amount:amount,p_wallet_address:address});if(error)throw error;$("withdraw-form").reset();await refreshBalances();showToast(t("requestSent"));}catch(err){showToast(err.message||"Withdrawal request failed",true);}});
+ $("deposit-address").textContent=config.deposit_wallet;
 }
-function setStatus(key){ $("round-status").textContent=t(key); }
-function renderLanguage(){
-  document.documentElement.lang=language;
-  document.querySelectorAll("[data-i18n]").forEach(el=>{ const key=el.dataset.i18n; if(t(key)) el.textContent=t(key); });
-  $("language").value=language; updateRisk(); updateBalance();
-  if(round) renderGrid();
-}
-function updateBalance(){ $("balance").innerHTML = money(state.balance)+' <small>CR</small>'; }
-function updateRisk(){
-  const n=Number($("bomb-count").value); $("bomb-count-label").textContent=n;
-  const level=n>=13?"riskHigh":n<=3?"riskLow":"riskBalanced";
-  $("risk-copy").textContent= language==="fr" ? `${n} bombes · ${t(level)}` : `${n} bombs · ${t(level)}`;
-}
-function multiplierFor(gems,bombs){
-  if(!gems) return 1;
-  // A modest demo multiplier based on the chance of each safe pick.
-  let fair=1;
-  for(let i=0;i<gems;i++) fair *= (SIZE-(i))/(SIZE-bombs-i);
-  return Math.max(1, fair*0.96);
-}
-function renderGrid(){
-  const grid=$("game-grid"); grid.innerHTML="";
-  const revealed=round?.revealed || {};
-  for(let i=0;i<SIZE;i++){
-    const btn=document.createElement("button"); btn.type="button"; btn.className="tile"; btn.setAttribute("role","gridcell");
-    btn.setAttribute("aria-label",`Tile ${i+1}`);
-    const result=revealed[i];
-    if(result==="gem"){btn.classList.add("revealed-gem");btn.innerHTML='<span class="tile-symbol">◆</span>';btn.disabled=true;btn.setAttribute("aria-label",`Tile ${i+1}: gem`);}
-    else if(result==="bomb"){btn.classList.add("revealed-bomb");btn.innerHTML='<span class="tile-symbol">✹</span>';btn.disabled=true;btn.setAttribute("aria-label",`Tile ${i+1}: bomb`);}
-    else if(round?.ended && round.bombs.has(i)){btn.classList.add("revealed-bomb");btn.textContent="✹";btn.disabled=true;}
-    else if(round?.ended){btn.disabled=true;btn.classList.add("revealed-safe");btn.textContent="·";}
-    else {btn.textContent="+";btn.disabled=!round?.active;btn.addEventListener("click",()=>pickTile(i));}
-    grid.appendChild(btn);
-  }
-}
-function updateRoundStats(){
-  const gems=round?Object.values(round.revealed).filter(x=>x==="gem").length:0;
-  const mult=round?multiplierFor(gems,round.bombCount):1;
-  $("gems-found").textContent=gems; $("multiplier").textContent=mult.toFixed(2)+"×";
-  $("cashout-value").textContent=money(round?round.bet*mult:0)+" CR";
-  $("cashout-button").disabled=!(round?.active && gems>0);
-  $("start-button").disabled=!!round?.active;
-}
-function startRound(){
-  if(round?.active){showToast(t("alreadyPlaying"),true);return;}
-  const bet=Number($("bet-amount").value), bombs=Number($("bomb-count").value);
-  if(!Number.isFinite(bet)||bet<1){showToast(t("needBet"),true);return;}
-  if(bet>state.balance){showToast(t("notEnough"),true);return;}
-  state.balance-=bet; saveState(); updateBalance();
-  const bombsSet=new Set();
-  while(bombsSet.size<bombs) bombsSet.add(Math.floor(Math.random()*SIZE));
-  round={active:true,ended:false,bet,bombCount:bombs,bombs:bombsSet,revealed:{}};
-  setStatus("playing"); renderGrid(); updateRoundStats(); showToast(t("roundStarted"));
-}
-function pickTile(index){
-  if(!round?.active||round.revealed[index]) return;
-  if(round.bombs.has(index)){
-    round.revealed[index]="bomb"; round.active=false; round.ended=true;
-    for(const b of round.bombs) if(round.revealed[b]===undefined) round.revealed[b]="bomb";
-    setStatus("lost"); renderGrid(); updateRoundStats(); showToast(t("bombMessage"),true); return;
-  }
-  round.revealed[index]="gem"; renderGrid(); updateRoundStats(); showToast(t("gemMessage"));
-  if(Object.values(round.revealed).filter(x=>x==="gem").length===SIZE-round.bombCount){
-    cashOut(true);
-  }
-}
-function cashOut(auto=false){
-  if(!round?.active) return;
-  const gems=Object.values(round.revealed).filter(x=>x==="gem").length;
-  if(!gems){showToast(t("noGems"),true);return;}
-  const payout=round.bet*multiplierFor(gems,round.bombCount);
-  state.balance+=payout;saveState();updateBalance();round.active=false;round.ended=true;
-  setStatus("won");renderGrid();updateRoundStats();showToast(t("cashMessage"));
-}
+function updateBalance(){ $("balance").innerHTML=money(playBalance)+' <small>USDT</small>'; let profit=$("profit-balance-display");if(!profit){profit=document.createElement("div");profit.id="profit-balance-display";profit.className="profit-balance-display";$("balance").parentElement.append(profit);}profit.textContent=`${t("profitBalance")}: ${money(profitBalance)} USDT`; if($("profit-balance-label"))$("profit-balance-label").textContent=`${t("profitBalance")}: ${money(profitBalance)} USDT`; }
+async function refreshBalances(){ if(!session)return; const {data,error}=await supabase.from("player_wallets").select("play_balance,profit_balance").eq("user_id",session.user.id).single();if(error)throw error;playBalance=Number(data.play_balance);profitBalance=Number(data.profit_balance);updateBalance(); }
+function updateRisk(){const n=Number($("bomb-count").value);$("bomb-count-label").textContent=n;const level=n>=13?"riskHigh":n<=3?"riskLow":"riskBalanced";$("risk-copy").textContent=language==="fr"?`${n} bombes · ${t(level)}`:`${n} bombs · ${t(level)}`;}
+function multiplierFor(gems,bombs){let fair=1;for(let i=0;i<gems;i++)fair*= (25-i)/(25-bombs-i);return Math.max(1,fair*.96);}
+function updateRoundStats(){const gems=round?.safe_picks||0;const mult=round?multiplierFor(gems,round.bomb_count):1;$("gems-found").textContent=gems;$("multiplier").textContent=mult.toFixed(2)+"×";$("cashout-value").textContent=money(round?round.bet_amount*mult:0)+" USDT";$("cashout-button").disabled=!(round?.status==="active"&&gems>0);$("start-button").disabled=round?.status==="active";}
+function renderGrid(revealed={},bombCells=[]){const grid=$("game-grid");grid.innerHTML="";for(let i=0;i<SIZE;i++){const b=document.createElement("button");b.type="button";b.className="tile";b.setAttribute("role","gridcell");b.setAttribute("aria-label",`Tile ${i+1}`);if(revealed[i]==="gem"){b.classList.add("revealed-gem");b.innerHTML='<span class="tile-symbol">◆</span>';b.disabled=true;}else if(revealed[i]==="bomb"||bombCells.includes(i)){b.classList.add("revealed-bomb");b.textContent="✹";b.disabled=true;}else if(round?.status!=="active"){b.classList.add("revealed-safe");b.textContent="·";b.disabled=true;}else{b.textContent="+";b.addEventListener("click",()=>pickTile(i));}grid.appendChild(b);}}
+async function startRound(){if(round?.status==="active"){showToast(t("alreadyPlaying"),true);return;}const bet=Number($("bet-amount").value),bombs=Number($("bomb-count").value);if(!Number.isFinite(bet)||bet<1){showToast(t("needBet"),true);return;}try{$("start-button").disabled=true;const {data,error}=await supabase.rpc("bomb_grid_start_round",{p_bet:bet,p_bomb_count:bombs});if(error)throw error;round={...data,bet_amount:Number(data.bet_amount),safe_picks:0,revealed:{}};playBalance=Number(data.play_balance);profitBalance=Number(data.profit_balance);updateBalance();setStatus("playing");renderGrid();updateRoundStats();showToast(t("roundStarted"));}catch(err){showToast(err.message||t("notEnough"),true);}finally{$("start-button").disabled=false;updateRoundStats();}}
+async function pickTile(i){if(!round||round.status!=="active")return;try{const {data,error}=await supabase.rpc("bomb_grid_pick",{p_round_id:round.round_id||round.id,p_cell:i});if(error)throw error;if(data.status==="lost"){round.status="lost";round.safe_picks=Number(data.safe_picks||0);const reveal={};(data.bomb_cells||[]).forEach(x=>reveal[x]="bomb");renderGrid(reveal,data.bomb_cells||[]);setStatus("lost");showToast(t("bombMessage"),true);}else{round.safe_picks=Number(data.safe_picks);round.revealed=round.revealed||{};round.revealed[i]="gem";if(data.status==="cashed_out"){round.status="cashed_out";setStatus("won");await refreshBalances();showToast(t("cashMessage"));}else showToast(t("gemMessage"));renderGrid(round.revealed); }updateRoundStats();if(round.status!=="active")await refreshBalances();}catch(err){showToast(err.message||"Pick failed",true);}}
+async function cashOut(){if(!round||round.status!=="active")return;try{const {data,error}=await supabase.rpc("bomb_grid_cash_out",{p_round_id:round.round_id||round.id});if(error)throw error;round.status="cashed_out";setStatus("won");await refreshBalances();renderGrid(round.revealed||{});updateRoundStats();showToast(t("cashMessage"));}catch(err){showToast(err.message||"Cash out failed",true);}}
+async function renderSession(){session=(await supabase.auth.getSession()).data.session;const layout=$("game-layout");const footer=document.querySelector(".footer");const tag=document.querySelector(".demo-tag");if(tag)tag.textContent=t("demo");if(session){$("auth-panel")?.remove();layout.hidden=false;footer.hidden=false;addFinancePanel();const {data,error}=await supabase.rpc("get_game_config");if(error)throw error;config=data;$("deposit-address").textContent=config.deposit_wallet;await refreshBalances();const logout=$("logout-button");if(!logout){const b=document.createElement("button");b.id="logout-button";b.className="cashout-button";b.style.width="auto";b.style.padding="8px 10px";b.textContent=t("logout");document.querySelector(".top-actions").prepend(b);b.addEventListener("click",async()=>{if(confirm(t("signOutConfirm"))){await supabase.auth.signOut();round=null;playBalance=profitBalance=0;location.reload();}});} }else{layout.hidden=true;footer.hidden=true;$("finance-panel")?.remove();authPanel();}}
+function renderLanguage(){document.documentElement.lang=language;document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(t(k))el.textContent=t(k);});$("language").value=language;updateRisk();if(session)updateBalance();if(round)updateRoundStats();}
 $("language").addEventListener("change",e=>{language=e.target.value;localStorage.setItem("bomb-grid-language",language);renderLanguage();});
-$("bomb-count").addEventListener("input",()=>{updateRisk();});
+$("bomb-count").addEventListener("input",updateRisk);
 $("start-button").addEventListener("click",startRound);
-$("cashout-button").addEventListener("click",()=>cashOut());
-$("max-bet").addEventListener("click",()=>{$("bet-amount").value=Math.max(1,Math.floor(state.balance));});
-document.querySelectorAll("[data-bet]").forEach(btn=>btn.addEventListener("click",()=>{$("bet-amount").value=btn.dataset.bet;}));
-$("reset-balance").addEventListener("click",()=>{if(confirm(t("resetConfirm"))){state.balance=1000;saveState();updateBalance();showToast(t("resetMessage"));}});
-renderLanguage(); renderGrid(); updateRoundStats();
+$("cashout-button").addEventListener("click",cashOut);
+$("max-bet").addEventListener("click",()=>{$("bet-amount").value=Math.max(1,Math.floor(playBalance));});
+document.querySelectorAll("[data-bet]").forEach(b=>b.addEventListener("click",()=>{$("bet-amount").value=b.dataset.bet;}));
+const reset=$("reset-balance");if(reset)reset.remove();
+$("bet-amount").min="1";$("bet-amount").step="0.01";$("bet-amount").value="1";
+supabase.auth.onAuthStateChange((_event,newSession)=>{session=newSession;setTimeout(()=>renderSession().catch(e=>showToast(e.message||"Session error",true)),0);});
+(async()=>{renderLanguage();try{await renderSession();}catch(e){showToast(e.message||"Could not connect to game services",true);}})();
