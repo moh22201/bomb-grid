@@ -20,6 +20,7 @@
         <span class="brand-mark">✳</span><span>BOMB<span class="brand-accent">GRID</span></span>
       </a>
       <div class="top-actions">
+        <button id="wallet-toggle" class="wallet-toggle" type="button" aria-label="Open wallet" title="Wallet">▣</button>
         <span class="demo-tag" data-i18n="demo">LIVE ACCOUNT</span>
         <label class="language-label" for="language" data-i18n="language">Language</label>
         <select id="language" aria-label="Language">
@@ -41,7 +42,7 @@
         </div>
         <div class="board-wrap">
           <div class="board-topline"><span data-i18n="gridLabel">5 × 5 GRID</span><span id="round-status" aria-live="polite" data-i18n="newRound">New round</span></div>
-          <div id="game-grid" class="game-grid" role="grid" aria-label="5 by 5 game grid"></div>
+          <div id="game-grid" class="game-grid" role="grid" aria-label="5 by 5 game grid"><button type="button" class="tile" role="gridcell" aria-label="Tile 1" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 2" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 3" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 4" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 5" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 6" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 7" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 8" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 9" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 10" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 11" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 12" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 13" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 14" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 15" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 16" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 17" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 18" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 19" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 20" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 21" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 22" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 23" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 24" disabled>+</button><button type="button" class="tile" role="gridcell" aria-label="Tile 25" disabled>+</button></div>
           <div class="board-legend">
             <span><i class="legend-gem">◆</i><span data-i18n="gemLegend">Gem found</span></span>
             <span><i class="legend-bomb">✹</i><span data-i18n="bombLegend">Bomb hit</span></span>
@@ -76,6 +77,6 @@
     <footer class="footer"><span>© BOMB GRID</span><span data-i18n="footerText">Play smart. Know when to stop.</span><span class="footer-version">v0.2</span></footer>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./src/main.js?v=grid-fix-5227abca"></script>
+  <script type="module" src="./src/main.js?v=wallet-grid-fix-20261029b"></script>
 </body>
 </html>
