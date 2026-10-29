@@ -107,4 +107,4 @@ document.querySelectorAll("[data-bet]").forEach(b=>b.addEventListener("click",()
 const reset=$("reset-balance");if(reset)reset.remove();
 $("bet-amount").min="1";$("bet-amount").step="0.01";$("bet-amount").value="1";
 supabase.auth.onAuthStateChange((_event,newSession)=>{session=newSession;setTimeout(()=>renderSession().catch(e=>showToast(e.message||"Session error",true)),0);});
-(async()=>{renderLanguage();try{await renderSession();}catch(e){showToast(e.message||"Could not connect to game services",true);}})();
+(async()=>{renderLanguage();try{if((await supabase.auth.getSession()).data.session)await supabase.auth.refreshSession();await renderSession();}catch(e){showToast(e.message||"Could not connect to game services",true);}})();
