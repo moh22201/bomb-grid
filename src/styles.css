@@ -90,3 +90,12 @@ html.telegram-webapp .topbar{padding-top:4px}
 .wallet-toggle{display:grid;place-items:center;width:36px;height:36px;border:1px solid #39796e;border-radius:10px;background:linear-gradient(145deg,#193c3b,#1c333e);color:#9fffe0;font-size:20px;cursor:pointer;box-shadow:0 0 18px #52e7c212}
 .wallet-toggle:hover{border-color:#9fffe0;background:#1d4545}
 #finance-panel[hidden]{display:none!important}
+
+.wallet-toggle{display:grid;place-items:center;width:42px;height:42px;padding:9px;border:1px solid #4b6880;border-radius:12px;background:linear-gradient(145deg,#20354b,#111d31);color:#a6ffe5;cursor:pointer;box-shadow:inset 0 1px #ffffff20,0 5px 15px #0003}
+.wallet-toggle svg{display:block;width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wallet-toggle:hover{border-color:#a6ffe5;transform:translateY(-1px)}
+.profit-card{border-color:#3c5d61;background:linear-gradient(135deg,#172d35,#172338)}
+.profit-icon{background:#203e46;color:#9fffe0}
+#profit-balance{font-size:20px;letter-spacing:-.4px}
+#profit-balance small{font:500 10px 'DM Mono',monospace;color:#9fffe0}
+@media(max-width:420px){.wallet-toggle{width:36px;height:36px;padding:7px}.wallet-toggle svg{width:22px;height:22px}}
