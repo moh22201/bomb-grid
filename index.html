@@ -11,7 +11,7 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <meta name="description" content="BOMB GRID — a 5×5 mines strategy game.">
   <title>BOMB GRID</title>
-  <link rel="stylesheet" href="./src/styles.css?v=wallet-balance-20261029c">
+  <link rel="stylesheet" href="./src/styles.css?v=wallet-modal-20261029d">
 </head>
 <body>
   <main class="app-shell">
@@ -21,7 +21,7 @@
       </a>
       <div class="top-actions">
         <button id="wallet-toggle" class="wallet-toggle" type="button" aria-label="Open wallet" title="Wallet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v16H5a2 2 0 0 1-2-2V6.5A2.5 2.5 0 0 1 5.5 4"/><path d="M3 7h17v4h-5a2.5 2.5 0 0 0 0 5h5"/><circle cx="15" cy="13.5" r=".7"/></svg></button>
-        <span class="demo-tag" data-i18n="demo">LIVE ACCOUNT</span>
+        <div class="top-balance"><span>PLAY</span><strong id="top-play-balance">0.00</strong></div><div class="top-balance withdraw-top-balance"><span>WITHDRAW</span><strong id="top-profit-balance">0.00</strong></div>
         <label class="language-label" for="language" data-i18n="language">Language</label>
         <select id="language" aria-label="Language">
           <option value="en">EN</option>
@@ -81,6 +81,6 @@
     <footer class="footer"><span>© BOMB GRID</span><span data-i18n="footerText">Play smart. Know when to stop.</span><span class="footer-version">v0.2</span></footer>
   </main>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./src/main.js?v=wallet-balance-20261029c"></script>
+  <script type="module" src="./src/main.js?v=wallet-modal-20261029d"></script>
 </body>
 </html>
