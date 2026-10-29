@@ -84,3 +84,9 @@ html.telegram-webapp .topbar{padding-top:4px}
 .profit-balance-display{font-size:10px;color:#9fffe0;margin-top:4px;max-width:240px}
 #logout-button{margin-right:4px}
 @media(max-width:700px){.finance-panel{grid-template-columns:1fr;gap:12px}.auth-panel{margin:18px auto;padding:18px}.finance-card{padding:16px}.auth-actions{grid-template-columns:1fr}}
+
+
+/* Wallet icon control */
+.wallet-toggle{display:grid;place-items:center;width:36px;height:36px;border:1px solid #39796e;border-radius:10px;background:linear-gradient(145deg,#193c3b,#1c333e);color:#9fffe0;font-size:20px;cursor:pointer;box-shadow:0 0 18px #52e7c212}
+.wallet-toggle:hover{border-color:#9fffe0;background:#1d4545}
+#finance-panel[hidden]{display:none!important}
