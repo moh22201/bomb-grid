@@ -137,3 +137,7 @@ html.telegram-webapp .topbar{padding-top:4px}
 .admin-withdrawal small,.admin-note{color:#8d9bb4;font-size:11px;overflow-wrap:anywhere}
 .admin-empty{color:#aab8d0;padding:18px;border:1px dashed #34445f;border-radius:10px}
 @media(max-width:760px){.admin-dashboard{inset:8px;padding:14px}.admin-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.admin-stat{padding:12px}.admin-stat strong{font-size:21px}.admin-withdrawals{grid-template-columns:1fr}.admin-head-actions{width:100%}.admin-head-actions button{flex:1}}
+
+/* Wallet modal close control */
+.finance-close{grid-column:1/-1;justify-self:end;align-self:start;width:34px;height:34px;margin:-8px -6px -8px 0;border:1px solid #526584;border-radius:9px;background:#0b1322;color:#f4f7ff;font:700 25px/1 system-ui,sans-serif;cursor:pointer;z-index:2}
+.finance-close:hover{border-color:#a6ffe5;color:#a6ffe5}
