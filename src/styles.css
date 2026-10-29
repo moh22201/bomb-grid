@@ -112,3 +112,28 @@ html.telegram-webapp .topbar{padding-top:4px}
 .wallet-note{font-size:11px;line-height:1.7;color:#a6b5cc}
 #finance-panel:before{content:"WALLET";grid-column:1/-1;color:#9fffe0;font:700 12px 'DM Mono',monospace;letter-spacing:2px}
 @media(max-width:560px){.top-actions{gap:6px}.top-balance{min-width:65px;padding:6px}.top-balance span{font-size:7px}.top-balance strong{font-size:9px}.finance-panel{grid-template-columns:1fr;padding:12px;gap:10px}.finance-card{padding:12px}}
+
+
+/* Secure admin dashboard */
+.admin-open-button{padding:9px 12px;border:1px solid #8b7bff;border-radius:9px;background:#28234a;color:#e3ddff;font:700 10px 'DM Mono',monospace;letter-spacing:1px;cursor:pointer}
+.admin-dashboard[hidden]{display:none!important}
+.admin-dashboard{position:fixed;z-index:200;inset:3vh 3vw;overflow:auto;padding:22px;border:1px solid #526584;border-radius:18px;background:linear-gradient(145deg,#151f34,#090f1d);box-shadow:0 25px 100px #000e;color:#f4f7ff}
+.admin-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.admin-head h2{margin:0;font-size:clamp(22px,4vw,30px)}
+.admin-head-actions{display:flex;gap:8px}
+.admin-head-actions .cashout-button{margin:0;padding:10px 14px}
+.admin-message{color:#a6ffe5;font-size:13px}
+.admin-error{color:#ff9ab4}
+.admin-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 26px}
+.admin-stat{display:flex;flex-direction:column;gap:8px;padding:16px;border:1px solid #34445f;border-radius:12px;background:#111a2b}
+.admin-stat span{font-size:12px;color:#aab8d0}.admin-stat strong{font:700 25px 'DM Mono',monospace;color:#9fffe0}.admin-stat small{font-size:11px;color:#aab8d0}
+.admin-dashboard h3{font-size:16px;margin:0 0 12px}
+.admin-withdrawals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.admin-withdrawal{display:flex;flex-direction:column;gap:8px;padding:15px;border:1px solid #34445f;border-radius:12px;background:#111a2b;min-width:0}
+.admin-withdrawal p{margin:0;color:#bac7dc;font-size:12px;overflow-wrap:anywhere}
+.admin-withdrawal-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.admin-withdrawal-top strong{color:#f4f7ff}.admin-withdrawal-top span{color:#9fffe0;font-size:12px}
+.admin-withdrawal code{display:block;overflow-wrap:anywhere;white-space:normal;color:#a6ffe5;font-size:11px}
+.admin-withdrawal small,.admin-note{color:#8d9bb4;font-size:11px;overflow-wrap:anywhere}
+.admin-empty{color:#aab8d0;padding:18px;border:1px dashed #34445f;border-radius:10px}
+@media(max-width:760px){.admin-dashboard{inset:8px;padding:14px}.admin-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.admin-stat{padding:12px}.admin-stat strong{font-size:21px}.admin-withdrawals{grid-template-columns:1fr}.admin-head-actions{width:100%}.admin-head-actions button{flex:1}}
