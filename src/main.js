@@ -1,4 +1,16 @@
 const $ = (id) => document.getElementById(id);
+// Telegram Mini App bootstrap: safe to run in a normal browser too.
+const telegramApp = window.Telegram?.WebApp;
+if (telegramApp) {
+  telegramApp.ready();
+  telegramApp.expand();
+  document.documentElement.classList.add("telegram-webapp");
+  try {
+    telegramApp.setHeaderColor("#090d18");
+    telegramApp.setBackgroundColor("#090d18");
+  } catch {}
+}
+
 const STORAGE_KEY = "bomb-grid-demo-v1";
 const SIZE = 25;
 const translations = {
